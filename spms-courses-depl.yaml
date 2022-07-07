@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spms-courses-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spms-courses
+  template:
+    metadata:
+      labels:
+        app: spms-courses
+    spec:
+      containers:
+        - name: spms-users
+          image: rilindbicaj/spms-courses:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spms-courses-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: spms-courses
+  ports:
+  - name: spms-courses
+    protocol: TCP
+    port: 80
+    targetPort: 80

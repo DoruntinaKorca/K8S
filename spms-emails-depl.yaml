@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spms-emails-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spms-emails
+  template:
+    metadata:
+      labels:
+        app: spms-emails
+    spec:
+      containers:
+        - name: spms-emails
+          image: rilindbicaj/spms-emails:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spms-emails-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: spms-emails
+  ports:
+  - name: spms-emails
+    protocol: TCP
+    port: 80
+    targetPort: 80

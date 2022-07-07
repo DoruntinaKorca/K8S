@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spms-posts-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spms-posts
+  template:
+    metadata:
+      labels:
+        app: spms-posts
+    spec:
+      containers:
+        - name: spms-posts
+          image: rilindbicaj/spms-posts:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spms-posts-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: spms-posts
+  ports:
+  - name: spms-posts
+    protocol: TCP
+    port: 80
+    targetPort: 80

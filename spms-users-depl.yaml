@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spms-users-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spms-users
+  template:
+    metadata:
+      labels:
+        app: spms-users
+    spec:
+      containers:
+        - name: spms-users
+          image: dk40651/spms-users:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spms-users-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: spms-users
+  ports:
+  - name: spms-users
+    protocol: TCP
+    port: 80
+    targetPort: 80

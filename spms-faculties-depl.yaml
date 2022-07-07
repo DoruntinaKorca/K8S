@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spms-faculties-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spms-faculties
+  template:
+    metadata:
+      labels:
+        app: spms-faculties
+    spec:
+      containers:
+        - name: spms-faculties
+          image: rilindbicaj/spms-faculties:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spms-faculties-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: spms-faculties
+  ports:
+  - name: spms-faculties
+    protocol: TCP
+    port: 80
+    targetPort: 80

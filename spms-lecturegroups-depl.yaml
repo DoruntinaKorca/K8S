@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spms-lecturegroups-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spms-lecturegroups
+  template:
+    metadata:
+      labels:
+        app: spms-lecturegroups
+    spec:
+      containers:
+        - name: spms-lecturegroups
+          image: dk40651/spms-lecturegroups:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spms-lecturegroups-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: spms-lecturegroups
+  ports:
+  - name: spms-lecturegroups
+    protocol: TCP
+    port: 80
+    targetPort: 80

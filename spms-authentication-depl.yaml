@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spms-authentication-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spms-authentication
+  template:
+    metadata:
+      labels:
+        app: spms-authentication
+    spec:
+      containers:
+        - name: spms-authentication
+          image: dk40651/spms-authentication:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spms-authentication-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: spms-authentication
+  ports:
+  - name: spms-authentication
+    protocol: TCP
+    port: 80
+    targetPort: 80
